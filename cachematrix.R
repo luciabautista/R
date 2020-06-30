@@ -1,34 +1,38 @@
-## Put comments here that give an overall description of what your
-## functions do
+##The purpose of this program in R is to calculate the inverse of a matrix 
+##in order to avoid redundant operations and reduce the computational cost.
 
-## Write a short comment describing this function
 
-makeCacheMatrix <- function(x = matrix(sample(1:100,5),3,1)) {
+##makeCacheMatrix builds some functions and returns them within a list.
+##This main function creates a matrix object which can cache its inverse.
+
+makeCacheMatrix <- function(x = matrix()) {
   s <- NULL
   set <- function(y) {
     x <<- y
     s <<- NULL
   }
   get <- function() x
-  setsolve <- function(solve) s <<- solve
-  getsolve <- function() s
+  setinv <- function(inverse) s <<- inverse
+  getinv <- function() s
   list(set = set, get = get,
-       setsolve = setsolve,
-       getsolve = getsolve)
+       setinv = setinv,
+       getinv = getinv)
 }
 
 
 
-## Write a short comment describing this function
+## cacheSolve calculates the inverse matrix of the data if they are not
+##in memory. On the other hand, the calculus of the inverse is returned if 
+## the data are in the memory.
 
 cacheSolve <- function(x, ...) {
-  s <- x$getsolve()
+  s <- x$getinv()
   if(!is.null(s)) {
-    message("getting inversed matrix")
+    message("the inversed matrix is")
     return(s)
   }
-  data <- x$get()
-  s <- solve(data, ...)
-  x$setsolve(s)
+  d<- x$get()
+  s <- solve(d, ...)
+  x$setinv(s)
   s
 }
